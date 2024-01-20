@@ -82,12 +82,12 @@ export const Home: React.FC = () => {
 				{/* Redes Sociais */}
 				<Box margin={4} display={'flex'} gap={3}>
 					<a href={'https://github.com/LuHenriSouza'} target="_blank" rel="noopener noreferrer">
-						<Button variant='outlined'>
+						<Button variant='outlined' size='large'>
 							<GitHubIcon sx={{ mr: 1 }} /> GitHub
 						</Button>
 					</a>
 					<a href={'https://www.linkedin.com/in/luiz-henrique-aparecido-de-souza-699ab91ba'} target="_blank" rel="noopener noreferrer">
-						<Button variant='outlined'>
+						<Button variant='outlined' size='large'>
 							<LinkedInIcon sx={{ mr: 1 }} /> LinkedIn
 						</Button>
 					</a>
@@ -136,7 +136,7 @@ export const Home: React.FC = () => {
 				{/* Ver Todos os Projetos */}
 				<Box display={'flex'} justifyContent={'center'}>
 					<Link to={'/projetos'}>
-						<Button variant='contained'>Ver Todos os Projetos</Button>
+						<Button variant='contained' size='large'>Ver Todos os Projetos</Button>
 					</Link>
 				</Box>
 			</Box>

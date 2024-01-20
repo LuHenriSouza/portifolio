@@ -11,7 +11,6 @@ export const LayoutMain: React.FC<ILayoutMainProps> = ({ children, title }) => {
 		<Box>
 			<TopBar title={title}/>
 			<Box minHeight={70}/>
-
 			{children}
 		</Box>
 	);

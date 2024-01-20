@@ -32,8 +32,21 @@ export const MainTheme = createTheme({
         },
     },
     typography: {
-        allVariants:{
-            color:'#fff'
+        allVariants: {
+            color: '#fff'
+        }
+    },
+    components: {
+        MuiLink: {
+            styleOverrides: {
+                root: {
+                    color: '#ccc',
+                    '&:hover': {
+                        textDecoration: 'underline',
+                        color: '#fff',
+                    },
+                },
+            },
         }
     }
 });
