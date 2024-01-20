@@ -18,14 +18,22 @@ export const MainTheme = createTheme({
 
         },
         background: {
-            paper: 'rgb(28, 37, 54)',
-            default: '#efefef',
+            paper: '#411d98',
+            default: '#070421',
         },
         info: {
             main: '#eee',
             light: '#6200ea',
             dark: '#411d98',
             contrastText: '#242105',
+        },
+        text: {
+            primary: '#ddd'
+        },
+    },
+    typography: {
+        allVariants:{
+            color:'#fff'
         }
     }
 });
