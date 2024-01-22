@@ -80,3 +80,15 @@ export const getTotalCommits = async (): Promise<number[] | undefined> => {
     throw e;
   }
 };
+
+export const getCommits = async (name: string): Promise<number | undefined> => {
+  try {
+    const total = await get_all_commits_count(name);
+
+    return total;
+
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+};

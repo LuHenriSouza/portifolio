@@ -1,15 +1,17 @@
 import { Alert, Box, Button, CircularProgress, Divider, Grid, LinearProgress, Paper, Skeleton, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { getProjects, getCommits, IResponse } from './config.tsx';
 import { LayoutMain } from '../../shared/layouts';
-import { getProjects, getTotalCommits, IResponse } from './config.tsx';
-import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
+
+
 export const Projetos: React.FC = () => {
 	const theme = useTheme();
 	const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [projetos, setProjetos] = useState<IResponse[]>([]);
-	const [totalCommits, setTotalCommits] = useState<number[]>([]);
+	const [projectCommits, setProjectCommits] = useState<{ [key: string]: number | undefined }>({});
 	const [NA, setNA] = useState(false);
 	useEffect(() => {
 		const dataFetch = async () => {
@@ -20,14 +22,23 @@ export const Projetos: React.FC = () => {
 				setNA(true);
 			}
 
-			setIsLoaded(true)
-
-			const commits = await getTotalCommits();
-			if (commits) setTotalCommits(commits);
-
+			setIsLoaded(true);
 		};
 		dataFetch();
 	}, [isLoaded])
+
+	const fetchCommits = async (name: string) => {
+		try {
+			const result = await getCommits(name);
+			setProjectCommits((prevCommits) => ({
+				...prevCommits,
+				[name]: result,
+			}));
+		} catch (error) {
+			console.error(`Error fetching commits for ${name}:`, error);
+		}
+	}
+
 	return (
 		<LayoutMain title='Projetos'>
 			<Box display={smDown ? 'flex' : 'block'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
@@ -60,19 +71,30 @@ export const Projetos: React.FC = () => {
 				{/* Projetos */}
 				({isLoaded ?
 					<Grid container spacing={smDown ? 1 : 3} flexDirection={smDown ? 'column' : 'row'} alignItems={'center'}>
-						{projetos.map((pj, index) => (
-							<Grid item xs={smDown ? 12 : 3} key={pj.name}>
-								<Button href={pj.url}>
-									<Box display={'flex'} flexDirection={'column'} gap={1} component={Paper} sx={{ height: 200, width: 310 }} variant='outlined'>
-										<Typography variant='h5' align='center' mt={1}>{pj.name}</Typography>
-										<Typography variant='h6' align='center' m={1}>{format(pj.created_at, 'dd/MM/yy')}</Typography>
-										<Divider sx={{ backgroundColor: '#fff' }} variant='middle' />
-										{totalCommits.length > 0 ? (<Typography variant='body1' align='center' m={1}>Total de Commits: {totalCommits[index]}</Typography>) :
-											(<Skeleton height={40} variant='text' />)}
-									</Box>
-								</Button>
-							</Grid>
-						))}
+						{projetos.map((pj) => {
+							fetchCommits(pj.name);
+							return (
+								<Grid item xs={smDown ? 12 : 3} key={pj.name}>
+									<Button href={pj.url}>
+										<Box display={'flex'} flexDirection={'column'} gap={1} component={Paper} sx={{ height: 200, width: 310 }} variant='outlined'>
+											<Typography variant='h5' align='center' mt={1}>{pj.name}</Typography>
+											<Typography variant='h6' align='center' m={1}>{format(pj.created_at, 'dd/MM/yy')}</Typography>
+											<Divider sx={{ backgroundColor: '#fff' }} variant='middle' />
+											{projectCommits[pj.name] ?
+												(
+													<Typography variant='body1' align='center' m={1}>Total de Commits: {projectCommits[pj.name]}</Typography>
+												)
+												:
+												(
+													<Skeleton height={40} variant='text' />
+												)
+											}
+										</Box>
+									</Button>
+								</Grid>
+							)
+						}
+						)}
 					</Grid>
 					:
 					<>
