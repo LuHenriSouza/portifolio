@@ -15,7 +15,7 @@ function httpGetHeader(theUrl: string) {
 
 }
 
-export async function get_all_commits_count(repo: string) {
+export async function get_all_commits_count(repo: string): Promise<number> {
     const owner = 'LuHenriSouza';
     const sha = 'main';
 

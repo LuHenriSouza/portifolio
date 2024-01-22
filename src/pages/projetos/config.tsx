@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { get_all_commits_count } from './CountCommits';
 
 const username = 'LuHenriSouza';
@@ -6,9 +7,14 @@ const token = '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';
 
 const apiUrl = `https://api.github.com/users/${username}/repos`;
 
-const headers = {
-  Authorization: `Bearer ${token}`,
-};
+// eslint-disable-next-line react-refresh/only-export-components
+const Autorization = () => {
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  };
+}
 
 interface IGitHubRepository {
   html_url: string;
@@ -18,39 +24,57 @@ interface IGitHubRepository {
   created_at: Date;
 }
 
-interface IResponse {
+export interface IResponse {
   url: string;
   name: string;
   description: string;
   created_at: Date;
-  totalCommit: number;
 }
 
-let projetos: IResponse[] = [];
+export const getProjects = async (): Promise<IResponse[] | undefined> => {
+  try {
+    const projetos: IResponse[] = [];
+    const { data } = await axios.get(apiUrl, Autorization());
+    if (data) {
+      data.map(async (repo: IGitHubRepository) => {
+        if (!repo.private) {
+          projetos.push(
+            {
+              url: repo.html_url,
+              name: repo.name,
+              description: repo.description,
+              created_at: repo.created_at
+            }
+          );
+        }
+      });
 
-fetch(apiUrl, { headers })
-  .then(response => response.json())
-  .then(async (data: IGitHubRepository[]) => {
-    const dataForProject = await Promise.all(data.map(async repo => {
-      if (repo.private == false) {
-        const totalCommits = await get_all_commits_count(repo.name);
+      projetos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      console.log(projetos);
+      return projetos;
+    } else {
+      alert('Ocorreu algum erro!');
+    }
+  }
+  catch (e) {
+    alert(e);
+  }
+}
 
-        return {
-          url: repo.html_url,
-          name: repo.name,
-          description: repo.description,
-          created_at: repo.created_at,
-          totalCommit: totalCommits
-        } as IResponse;
-      }
-    }));
-
-    projetos = dataForProject.filter((projeto): projeto is IResponse => projeto !== undefined);
-
-    projetos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-
-    console.log(projetos);
-  })
-  .catch(error => console.error('Erro ao obter repositórios:', error));
-
-export { projetos };
+export const getTotalCommits = async (): Promise<number[] | undefined> => {
+  try {
+    const response = await getProjects();
+    if (response) {
+      const totalCommits: number[] = [];
+      await Promise.all(response.map(async (repo) => {
+        const total = await get_all_commits_count(repo.name);
+        totalCommits.push(total);
+      }));
+      return totalCommits;
+    }
+  }
+  catch (e) {
+    alert(e);
+    throw e;
+  }
+};
