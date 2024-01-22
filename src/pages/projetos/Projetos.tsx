@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Divider, Grid, LinearProgress, Paper, Skeleton, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Alert, Box, Button, CircularProgress, Divider, Grid, LinearProgress, Paper, Skeleton, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { LayoutMain } from '../../shared/layouts';
 import { getProjects, getTotalCommits, IResponse } from './config.tsx';
 import { format } from 'date-fns';
@@ -10,11 +10,15 @@ export const Projetos: React.FC = () => {
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [projetos, setProjetos] = useState<IResponse[]>([]);
 	const [totalCommits, setTotalCommits] = useState<number[]>([]);
-
+	const [NA, setNA] = useState(false);
 	useEffect(() => {
 		const dataFetch = async () => {
-			const projetos = await getProjects();
-			if (projetos) setProjetos(projetos);
+			try {
+				const projetos = await getProjects();
+				if (projetos) setProjetos(projetos);
+			} catch (e) {
+				setNA(true);
+			}
 
 			setIsLoaded(true)
 
@@ -76,6 +80,9 @@ export const Projetos: React.FC = () => {
 						{smDown && (<CircularProgress sx={{ color: "#fff" }} />)}
 					</>
 				})
+				{isLoaded && NA && (
+					<Alert severity='error'>Erro ao listar projetos! Verifique o token de acesso!</Alert>
+				)}
 
 			</Box>
 		</LayoutMain>
