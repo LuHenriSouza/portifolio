@@ -1,14 +1,27 @@
-import { Box, Button, Grid, LinearProgress, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Button, Divider, Grid, LinearProgress, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { LayoutMain } from '../../shared/layouts';
-import { projetos } from './config.tsx';
+import { getProjects, getTotalCommits, IResponse } from './config.tsx';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 export const Projetos: React.FC = () => {
 	const theme = useTheme();
 	const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+
 	const [isLoaded, setIsLoaded] = useState(false);
+	const [projetos, setProjetos] = useState<IResponse[]>([]);
+	const [totalCommits, setTotalCommits] = useState<number[]>([]);
+
 	useEffect(() => {
-		projetos ? setIsLoaded(true) : setIsLoaded(false);
+		const dataFetch = async () => {
+			const projetos = await getProjects();
+			if (projetos) setProjetos(projetos);
+
+			const commits = await getTotalCommits();
+			if (commits) setTotalCommits(commits);
+
+			setIsLoaded(true)
+		};
+		dataFetch();
 	}, [isLoaded])
 	return (
 		<LayoutMain title='Projetos'>
@@ -42,13 +55,14 @@ export const Projetos: React.FC = () => {
 				{/* Projetos */}
 				({isLoaded ?
 					<Grid container spacing={3}>
-						{projetos.map((pj) => (
+						{projetos.map((pj, index) => (
 							<Grid item xs={3} key={pj.name}>
 								<Button href={pj.url}>
-									<Box display={'flex'} flexDirection={'column'} gap={1} component={Paper} sx={{ height: 170, width: 310 }} variant='outlined'>
+									<Box display={'flex'} flexDirection={'column'} gap={1} component={Paper} sx={{ height: 200, width: 310 }} variant='outlined'>
 										<Typography variant='h5' align='center' mt={1}>{pj.name}</Typography>
-										<Typography variant='body1' m={1}>Data de Criação: {format(pj.created_at, 'dd/MM/yy')}</Typography>
-										<Typography variant='body1' m={1}>Total de Commits: {pj.totalCommit}</Typography>
+										<Typography variant='h6' align='center' m={1}>{format(pj.created_at, 'dd/MM/yy')}</Typography>
+										<Divider sx={{backgroundColor: '#fff'}} variant='middle'/>
+										<Typography variant='body1' align='center' m={1}>Total de Commits: {totalCommits[index]}</Typography>
 									</Box>
 								</Button>
 							</Grid>
