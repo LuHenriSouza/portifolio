@@ -1,7 +1,14 @@
 {
-    "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ],
     "routes": [
-      { "src": "/projetos", "dest": "/index.html" }
+        {
+            "src": "/projetos",
+            "dest": "/index.html"
+        }
     ]
-  }
-  
+}
