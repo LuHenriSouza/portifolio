@@ -73,7 +73,7 @@ export const Projetos: React.FC = () => {
 					:
 					<>
 						<LinearProgress />
-						{smDown && (<CircularProgress sx={{ backgroundColor: "#fff" }} />)}
+						{smDown && (<CircularProgress sx={{ color: "#fff" }} />)}
 					</>
 				})
 

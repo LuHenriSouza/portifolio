@@ -41,8 +41,8 @@ export const Footer: React.FC<IFooterProps> = ({ children }) => {
 								<Link href="https://www.linkedin.com/in/luiz-henrique-aparecido-de-souza-699ab91ba" underline="hover"><LinkedInIcon sx={{ mr: 1 }} />LinkedIn</Link>
 							</Box>
 						</Grid>
-						<Grid item xs={smDown ? 12 : 2} display={'flex'} justifyContent={'center'}>
-							<Button variant='contained' sx={{ maxHeight: 80 }} onClick={scrollToTop}>Voltar <br />ao Início</Button>
+						<Grid item xs={smDown ? 12 : 2} display={'flex'} justifyContent={'center'} mt={3}>
+							<Button variant='contained' sx={smDown ? { maxHeight: 80, mb: 10 } : { maxHeight: 80 }} onClick={scrollToTop}>Voltar <br />ao Início</Button>
 						</Grid>
 					</Grid>
 				</Container>
