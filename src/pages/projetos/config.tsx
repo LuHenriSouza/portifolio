@@ -3,7 +3,7 @@ import { get_all_commits_count } from './CountCommits';
 
 const username = 'LuHenriSouza';
 
-const token = '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';
+const token = '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';
 
 const apiUrl = `https://api.github.com/users/${username}/repos`;
 
@@ -57,7 +57,7 @@ export const getProjects = async (): Promise<IResponse[] | undefined> => {
     }
   }
   catch (e) {
-    alert(e);
+    console.log(e);
   }
 }
 
@@ -76,7 +76,7 @@ export const getTotalCommits = async (): Promise<number[] | undefined> => {
       return totalCommits;
     }
   } catch (e) {
-    alert(e);
+    console.log(e);
     throw e;
   }
 };
