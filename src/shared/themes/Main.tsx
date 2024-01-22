@@ -47,6 +47,17 @@ export const MainTheme = createTheme({
                     },
                 },
             },
+        },
+        MuiDrawer: {
+            styleOverrides: {
+                root: {
+                    color: "#fff"
+                },
+                paper: {
+                    backgroundColor: "#512da8",
+                    color: "#fff",
+                }
+            }
         }
     }
 });

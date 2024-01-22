@@ -1,21 +1,42 @@
 import { AppRoutes } from './routes';
-import { Container } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
-import { AppThemeProvider } from './shared/contexts';
-import { Footer } from './shared/components';
+import { Footer, SideBar } from './shared/components';
+import { Container, useMediaQuery, useTheme } from '@mui/material';
+import { AppDrawerProvider, AppThemeProvider } from './shared/contexts';
 
 
 export const App = () => {
-
+  const theme = useTheme();
+  const smDown = useMediaQuery(theme.breakpoints.down('sm'));
   return (
     <AppThemeProvider>
-      <Footer>
-        <Container maxWidth="xl">
+      {smDown ? (
+        <AppDrawerProvider>
           <BrowserRouter>
-            <AppRoutes />
+            <SideBar>
+              <Footer>
+                <Container maxWidth="xl">
+                  <AppRoutes />
+                </Container>
+              </Footer>
+            </SideBar>
           </BrowserRouter>
-        </Container>
-      </Footer>
+        </AppDrawerProvider>
+      )
+        :
+        (
+          <AppDrawerProvider>
+            <BrowserRouter>
+                <Footer>
+                  <Container maxWidth="xl">
+                    <AppRoutes />
+                  </Container>
+                </Footer>
+            </BrowserRouter>
+          </AppDrawerProvider>
+        )
+      }
+
     </AppThemeProvider>
   )
 }

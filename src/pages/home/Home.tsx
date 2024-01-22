@@ -136,7 +136,13 @@ export const Home: React.FC = () => {
 				{/* Ver Todos os Projetos */}
 				<Box display={'flex'} justifyContent={'center'}>
 					<Link to={'/projetos'}>
-						<Button variant='contained' size='large'>Ver Todos os Projetos</Button>
+						<Button
+							variant='contained'
+							size='large'
+							sx={smDown ? { mt: 3 } : { mt: 0 }}
+						>
+							Ver Todos os Projetos
+						</Button>
 					</Link>
 				</Box>
 			</Box>

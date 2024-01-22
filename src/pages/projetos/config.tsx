@@ -66,14 +66,16 @@ export const getTotalCommits = async (): Promise<number[] | undefined> => {
     const response = await getProjects();
     if (response) {
       const totalCommits: number[] = [];
-      await Promise.all(response.map(async (repo) => {
+
+      // Usando um loop for...of para garantir a ordem das chamadas
+      for (const repo of response) {
         const total = await get_all_commits_count(repo.name);
         totalCommits.push(total);
-      }));
+      }
+
       return totalCommits;
     }
-  }
-  catch (e) {
+  } catch (e) {
     alert(e);
     throw e;
   }
