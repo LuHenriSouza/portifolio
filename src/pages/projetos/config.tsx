@@ -8,6 +8,7 @@ const apiUrl = `https://api.github.com/users/${username}/repos`;
 interface IGitHubRepository {
   html_url: string;
   name: string;
+  language: string;
   private: boolean;
   description: string;
   created_at: Date;
@@ -16,6 +17,7 @@ interface IGitHubRepository {
 export interface IResponse {
   url: string;
   name: string;
+  language: string;
   description: string;
   created_at: Date;
 }
@@ -31,6 +33,7 @@ export const getProjects = async (): Promise<IResponse[] | undefined> => {
             {
               url: repo.html_url,
               name: repo.name,
+              language: repo.language,
               description: repo.description,
               created_at: repo.created_at
             }

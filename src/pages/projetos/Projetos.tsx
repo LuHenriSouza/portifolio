@@ -72,7 +72,7 @@ export const Projetos: React.FC = () => {
 					color={'#ddd'}
 					align={smDown ? 'center' : 'inherit'}
 				>
-					Essa página é atualizada automaticamente e ordenada por data de acordo com meus projetos no GitHub,<br /> se esta página estiver vazia por favor fazer contato comigo.
+					A lista a seguir é atualizada automaticamente de acordo com meus projetos públicos no GitHub.
 				</Typography>
 				{/* Projetos */}
 				{isLoaded ?
@@ -82,10 +82,16 @@ export const Projetos: React.FC = () => {
 							return (
 								<Grid item xs={smDown ? 12 : 3} key={pj.name}>
 									<Button href={pj.url}>
-										<Box display={'flex'} flexDirection={'column'} gap={1} component={Paper} sx={{ height: 200, width: 310 }} variant='outlined'>
+										<Box display={'flex'} flexDirection={'column'} gap={1} component={Paper} sx={{ height: 260, width: 310 }} variant='outlined'>
 											<Typography variant='h5' align='center' mt={1}>{pj.name}</Typography>
-											<Typography variant='h6' align='center' m={1}>{format(pj.created_at, 'dd/MM/yy')}</Typography>
+											<Typography variant='h6' align='center' mb={1}>{format(pj.created_at, 'dd / MM / yy')}</Typography>
+
 											<Divider sx={{ backgroundColor: '#fff' }} variant='middle' />
+
+											<Typography variant='h6' align='center' m={1}>{pj.language ? pj.language : 'banner'}</Typography>
+
+											<Divider sx={{ backgroundColor: '#fff' }} variant='middle' />
+
 											{projectCommits[pj.name] ?
 												(
 													<Typography variant='body1' align='center' m={1}>Total de Commits: {projectCommits[pj.name]}</Typography>
