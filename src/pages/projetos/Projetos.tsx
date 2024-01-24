@@ -17,12 +17,14 @@ export const Projetos: React.FC = () => {
 		const dataFetch = async () => {
 			try {
 				const projetos = await getProjects();
-				if (projetos) setProjetos(projetos);
-			} catch (e) {
-				setNA(true);
-			}
+				projetos ? setProjetos(projetos) : setNA(true);
 
-			setIsLoaded(true);
+			} catch (e) {
+				console.error(e);
+
+			} finally {
+				setIsLoaded(true);
+			}
 		};
 		dataFetch();
 	}, [isLoaded])
@@ -69,7 +71,7 @@ export const Projetos: React.FC = () => {
 					Essa página é atualizada automaticamente e ordenada por data de acordo com meus projetos no GitHub,<br /> se esta página estiver vazia por favor fazer contato comigo.
 				</Typography>
 				{/* Projetos */}
-				({isLoaded ?
+				{isLoaded ?
 					<Grid container spacing={smDown ? 1 : 3} flexDirection={smDown ? 'column' : 'row'} alignItems={'center'}>
 						{projetos.map((pj) => {
 							fetchCommits(pj.name);
@@ -101,9 +103,9 @@ export const Projetos: React.FC = () => {
 						<LinearProgress />
 						{smDown && (<CircularProgress sx={{ color: "#fff" }} />)}
 					</>
-				})
+				}
 				{isLoaded && NA && (
-					<Alert severity='error'>Erro ao listar projetos! Verifique o token de acesso!</Alert>
+					<Alert severity='error' sx={{ mt: 3 }}>Erro ao listar projetos! Verifique o token de acesso!</Alert>
 				)}
 
 			</Box>

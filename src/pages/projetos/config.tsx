@@ -3,7 +3,7 @@ import { get_all_commits_count } from './CountCommits';
 
 const username = 'LuHenriSouza';
 
-const token = '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';
+const token = import.meta.env.VITE_REACT_APP_API_KEY || '';
 
 const apiUrl = `https://api.github.com/users/${username}/repos`;
 
