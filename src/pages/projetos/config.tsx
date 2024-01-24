@@ -3,18 +3,7 @@ import { get_all_commits_count } from './CountCommits';
 
 const username = 'LuHenriSouza';
 
-const token = import.meta.env.VITE_REACT_APP_API_KEY || '';
-
 const apiUrl = `https://api.github.com/users/${username}/repos`;
-
-// eslint-disable-next-line react-refresh/only-export-components
-const Autorization = () => {
-  return {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    }
-  };
-}
 
 interface IGitHubRepository {
   html_url: string;
@@ -34,7 +23,7 @@ export interface IResponse {
 export const getProjects = async (): Promise<IResponse[] | undefined> => {
   try {
     const projetos: IResponse[] = [];
-    const { data } = await axios.get(apiUrl, Autorization());
+    const { data } = await axios.get(apiUrl);
     if (data) {
       data.map(async (repo: IGitHubRepository) => {
         if (!repo.private) {
