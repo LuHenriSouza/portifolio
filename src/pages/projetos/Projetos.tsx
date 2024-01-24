@@ -26,6 +26,10 @@ export const Projetos: React.FC = () => {
 				setIsLoaded(true);
 			}
 		};
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
 		dataFetch();
 	}, [isLoaded])
 
