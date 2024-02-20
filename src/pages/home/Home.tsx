@@ -134,16 +134,32 @@ export const Home: React.FC = () => {
 				</Grid>
 
 				{/* Ver Todos os Projetos */}
-				<Box display={'flex'} justifyContent={'center'}>
-					<Link to={'/projetos'}>
-						<Button
-							variant='contained'
-							size='large'
-							sx={smDown ? { mt: 3 } : { mt: 0 }}
-						>
-							Ver Todos os Projetos
-						</Button>
-					</Link>
+				<Box display={'flex'} justifyContent={'space-between'} mt={10} alignItems={'center'} >
+					<Box display={'flex'} justifyContent={'center'} flexDirection={'column'} gap={3} ml={10}>
+						<Typography variant='h5'>
+							Você pode ver petit 2.0 em funcionamento no link a baixo:
+						</Typography>
+						<Typography variant='h6'>
+							Login: usertest@petit.com
+						</Typography>
+						<Typography variant='h6'>
+							Senha: 123456
+						</Typography>
+						<Typography variant='h6'>
+							Link: <a href='https://petit-system-react.vercel.app/produtos' target='_blank'>https://petit-system-react.vercel.app/</a>
+						</Typography>
+					</Box>
+					<Box mr={20}>
+						<Link to={'/projetos'} >
+							<Button
+								variant='contained'
+								size='large'
+								sx={smDown ? { mt: 3 } : { mt: 0 }}
+							>
+								Ver Todos os Projetos
+							</Button>
+						</Link>
+					</Box>
 				</Box>
 			</Box>
 		</LayoutMain >
