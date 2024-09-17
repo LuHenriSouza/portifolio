@@ -70,7 +70,7 @@ export const Home: React.FC = () => {
 						fontWeight={'bold'}
 						align={smDown ? 'center' : 'inherit'}
 					>
-						Olá, possuo {calcularIdade()} anos e desenvolvo aplicações web desde 2023, focado em desenvolver códigos eficientes e limpos.
+						Olá, possuo {calcularIdade()} anos e desenvolvo aplicações web desde 2022, focado em desenvolver códigos eficientes e limpos.
 						<br />
 						Sempre buscando garantir a melhor experiência de usuário.
 						Esse site foi desenvolvido usando React + MaterialUI + TypeScript
